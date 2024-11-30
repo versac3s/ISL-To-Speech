@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Detector</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        .main_page {
+            height: 100vh; /* Full viewport height */
+            width: 100vw; /* Full viewport width */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: #d14c18;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23e78058' fill-opacity='0.4'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
+            color: #333;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            background-color: #d14c18;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+            width:150px;
+        }
+        button:hover {
+            background-color: #b24014;
+        }
+        #video {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="main_page">
+    <div class="card">
+        <h1>Sign Language Gesture Detection</h1>
+        <img id="video" src="{{ url_for('video_feed') }}" alt="Video Feed">
+        <h3>Detected Text: <span id="detected-letter">-</span></h3>
+        <button id="reset-button" onclick="resetDetectedText()">Reset</button>
+        <button id="delete-button" onclick="deleteLastLetter()">Backspace</button>
+        <br>
+        <button id="stop-feed-button" onclick="window.location.href='/'">Home</button>
+        <button id="text-to-speech-button" onclick="readDetectedText()">Read Aloud</button>
+    </div>
+
+    <script>
+        function updateDetectedLetter() {
+            fetch('/detected_text')
+                .then(response => response.json())
+                .then(data => {
+                    const detectedLetterElement = document.getElementById('detected-letter');
+                    detectedLetterElement.textContent = data.detected_text;
+                })
+                .catch(error => console.error('Error fetching detected text:', error));
+        }
+
+        function resetDetectedText() {
+            fetch('/reset_detected_text', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        const detectedLetterElement = document.getElementById('detected-letter');
+                        detectedLetterElement.textContent = '-';
+                    } else {
+                        console.error('Failed to reset detected text');
+                    }
+                })
+                .catch(error => console.error('Error resetting detected text:', error));
+        }
+
+        function deleteLastLetter() {
+            fetch('/delete_last_letter', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.detected_text !== undefined) {
+                        const detectedLetterElement = document.getElementById('detected-letter');
+                        detectedLetterElement.textContent = data.detected_text;
+                    } else {
+                        console.error('Error deleting letter:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error deleting last letter:', error));
+        }
+
+        function stopLiveFeed() {
+            fetch('/stop_live_feed', { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        const videoElement = document.getElementById('video');
+                        videoElement.src = "";
+                    } else {
+                        console.error('Failed to stop live feed');
+                    }
+                })
+                .catch(error => console.error('Error stopping live feed:', error));
+        }
+
+        function readDetectedText() {
+            const detectedLetterElement = document.getElementById('detected-letter');
+            const textToRead = detectedLetterElement.textContent;
+
+            if (textToRead && textToRead !== '-') {
+                const speech = new SpeechSynthesisUtterance(textToRead);
+                speech.lang = 'en-US';
+                speech.rate = 1;
+                speechSynthesis.speak(speech);
+            } else {
+                console.warn('No text available to read.');
+            }
+        }
+
+        setInterval(updateDetectedLetter, 500);
+    </script>
+</body>
+</html>
