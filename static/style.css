@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent scrollbars */
+}
+
+.main_page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d14c18;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23e78058' fill-opacity='0.4'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
+  color: #333;
+}
+
+.card {
+  font-family: "DM Sans", sans-serif;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 400px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #d14c18;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  background-color: #d14c18;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+  width: 150px;
+}
+
+button:hover {
+  background-color: #b24014;
+}
+
+#video {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+}
+.instructions ol li {
+  font-family: "DM Sans", sans-serif; /* Apply DM Sans font */
+  font-size: 12px; /* Adjust the font size */
+  color: #333; /* Text color */
+  text-align: left; /* Justify the text */
+}
+
+.instructions p {
+  font-weight: 500; /* Make the "Instructions:" label slightly bolder */
+  margin-top: -10px;
+}

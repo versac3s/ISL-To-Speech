@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talking Hands - Welcome</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='welcomePage.css') }}"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Gochi+Hand&family=Homemade+Apple&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Gochi+Hand&family=Homemade+Apple&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="home_page" onclick="navigateToMainPage()">
+      <div class="heading">
+        <h1>Talking Hands</h1>
+        <img
+          id="butterfly"
+          src="{{ url_for('static', filename='/butterflyA.png') }}"
+          alt="butterfly"
+        />
+      </div>
+      <p class="description">
+        This platform is here to make communication easier and more accessible,
+        turning your words into voice.
+        <br />
+        We're excited to help you connect, no matter the language!
+        <br />
+        <span>Click anywhere to get started!</span>
+      </p>
+      <img
+        id="people"
+        src="{{ url_for('static', filename='/people.png') }}"
+        alt="Welcome Illustration"
+      />
+    </div>
+    <script>
+      function navigateToMainPage() {
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>

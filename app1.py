@@ -11,11 +11,12 @@ import time
 from gtts import gTTS
 import os
 
-# Initialize Flask
 app = Flask(__name__)
 
-# Load the saved model from file
-model = keras.models.load_model("model.h5")
+
+model_path = r'C:\Users\d88zx\OneDrive\Desktop\Talking Hands\sign-language\model.h5'
+
+model = keras.models.load_model(model_path)
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
@@ -26,7 +27,7 @@ alphabet =  ['1', '2', '3', '4', '5', '6', '7', '8', '9'] + list(string.ascii_up
 # Variable to store the sequence of detected letters
 detected_text = ""
 last_detected_time = time.time()  # Track the time when the last letter was detected
-detection_delay = 1.5 
+detection_delay = 5.0 
 
 # Functions
 def calc_landmark_list(image, landmarks):
@@ -74,8 +75,8 @@ def generate_frames():
     with mp_hands.Hands(
         model_complexity=0,
         max_num_hands=2,
-        min_detection_confidence=0.5,
-        min_tracking_confidence=0.5
+        min_detection_confidence=0.7,
+        min_tracking_confidence=0.7
     ) as hands:
         global detected_text  # To access the global text variable
         global last_detected_time  # To track the last detection time
@@ -131,13 +132,14 @@ def generate_frames():
 
     cap.release()
 
-@app.route('/index')
+@app.route('/index.html')
 def index():
     return render_template('index.html')
 
 @app.route('/')
 def welcome():
-    return render_template('welcome.html')
+    return render_template('welcomePage.html')
+
 
 @app.route('/video_feed')
 def video_feed():
@@ -146,7 +148,7 @@ def video_feed():
 
 @app.route('/detected_text')
 def get_detected_text():
-    # Return the current detected text in JSON format
+    global detected_text
     return jsonify({'detected_text': detected_text})
 
 @app.route('/reset_detected_text', methods=['POST'])
@@ -163,6 +165,11 @@ def delete_last_letter():
         return jsonify({'detected_text': detected_text})  # Return updated text
     else:
         return jsonify({'error': 'No text to delete'}), 400
+@app.route('/add_space', methods=['POST'])
+def add_space():
+    global detected_text
+    detected_text += " "  # Add space to the detected text
+    return '', 204  # Return HTTP 204 No Content
 
 
 if __name__ == '__main__':
