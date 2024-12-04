@@ -1,0 +1,33 @@
+/* Ensure the page takes up the full viewport */
+.home_page {
+    background-color: #D14C18;
+    color: #f4d68c;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out content vertically */
+    align-items: center; /* Center content horizontally */
+    height: 100vh; /* Full height of the viewport */
+    margin: 0; /* Remove default margins */
+}
+
+/* Style the h1 tag to be at the top and centered */
+.home_page h1 {
+    font-family: 'Gochi Hand';
+    margin: 50px 0 0 0; /* Add some space at the top */
+    font-size: 5.5rem;
+    text-align: center;
+}
+
+.home_page img {
+    max-width: 500px; /* Limit the maximum width */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 0px; /* Add space from the bottom */
+    margin-right: -30px;
+    margin-top: -20px;
+}
+.description {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    max-width: 80%;
+    margin: 20px 0;
+}
