@@ -13,9 +13,8 @@ import os
 
 app = Flask(__name__)
 
+#the path of the model
 model_path = os.path.join(os.getcwd(), 'sign-language', 'models', 'model.h5')
-
-
 model = keras.models.load_model(model_path)
 
 mp_drawing = mp.solutions.drawing_utils
