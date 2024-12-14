@@ -13,8 +13,7 @@ import os
 
 app = Flask(__name__)
 
-
-model_path = r'C:\Users\d88zx\OneDrive\Desktop\Talking Hands\sign-language\model.h5'
+model_path = os.path.join(os.getcwd(), 'models', 'model.h5')
 
 model = keras.models.load_model(model_path)
 
